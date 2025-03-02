@@ -1,6 +1,6 @@
 import pytest
 from marshmallow.exceptions import ValidationError
-from app.validation.validator import RegisterSchema, LoginSchema, GenerateTextSchema, UpdateTextSchema
+from app.validation.validator import RegisterSchema, LoginSchema, GenerateTextSchema
 
 def test_register_schema_valid():
     schema = RegisterSchema()
@@ -57,21 +57,6 @@ def test_generate_text_schema_valid():
 
 def test_generate_text_schema_invalid_prompt_too_short():
     schema = GenerateTextSchema()
-    data = {"prompt": "123"}
-
-    with pytest.raises(ValidationError) as excinfo:
-        schema.load(data)
-    assert "Prompt must be at least 5 characters long." in str(excinfo.value)
-
-def test_update_text_schema_valid():
-    schema = UpdateTextSchema()
-    data = {"prompt": "This is an updated valid prompt."}
-
-    result = schema.load(data)
-    assert result == data
-
-def test_update_text_schema_invalid_prompt_too_short():
-    schema = UpdateTextSchema()
     data = {"prompt": "123"}
 
     with pytest.raises(ValidationError) as excinfo:

@@ -35,12 +35,3 @@ class GenerateTextSchema(Schema):
     def validate_prompt(self, value):
         if len(value) < 5:
             raise ValidationError("Prompt must be at least 5 characters long.")
-
-class UpdateTextSchema(Schema):
-    """Schema for updating stored AI-generated text."""
-    prompt = fields.Str(required=True)
-
-    @validates("prompt")
-    def validate_prompt(self, value):
-        if len(value) < 5:
-            raise ValidationError("Prompt must be at least 5 characters long.")

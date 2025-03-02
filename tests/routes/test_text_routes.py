@@ -13,18 +13,18 @@ def test_save_generated_text(client, auth_headers, mock_openai_create):
     assert res.get_json()["data"]["prompt"] == "Test prompt"
 
 def test_update_generated_text(client, auth_headers, mock_openai_create):
-    res = client.post("/generate-text", json={"prompt": "Old prompt"}, headers=auth_headers)
+    res = client.post("/generate-text", json={"prompt": "prompt"}, headers=auth_headers)
     text_id = res.get_json()["data"]["id"]
 
-    res = client.put(f"/generated-text/{text_id}", json={"prompt": "Updated prompt"}, headers=auth_headers)
+    res = client.put(f"/generated-text/{text_id}", json={}, headers=auth_headers)
     assert res.status_code == 200
     text = res.get_json()["data"]
-    assert text["prompt"] == "Updated prompt"
+    assert text["prompt"] == "prompt"
     assert text["id"] == text_id
 
     res = client.get(f"/generated-text/{text_id}", headers=auth_headers)
     assert res.status_code == 200
-    assert res.get_json()["data"]["prompt"] == "Updated prompt"
+    assert res.get_json()["data"]["prompt"] == "prompt"
     assert res.get_json()["data"]["id"] == text_id
     assert res.get_json()["data"]["response"] == text["response"]
 

@@ -14,8 +14,7 @@ class TextService:
         return GeneratedText.query.filter_by(id=text_id, user_id=user_id).first()
 
     @staticmethod
-    def update_text(text: GeneratedText, prompt, new_response) -> GeneratedText:
-        text.prompt = prompt
+    def update_text(text: GeneratedText, new_response) -> GeneratedText:
         text.response = new_response
         text.updated_at = db.func.now()
         db.session.commit()

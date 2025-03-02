@@ -2,7 +2,7 @@ from functools import wraps
 from flask import Blueprint, request, jsonify
 from flask_jwt_extended import jwt_required, get_jwt_identity
 from app.logger import Logger
-from app.validation.validator import GenerateTextSchema, UpdateTextSchema
+from app.validation.validator import GenerateTextSchema
 from app.services.text import TextService
 from app.services.ai import ai_service
 
@@ -66,19 +66,12 @@ def get_text(user_id, text_id):
 @jwt_required()
 @jwt_required_int()
 def update_text(user_id, text_id):
-    data = request.get_json()
-    errors = UpdateTextSchema().validate(data)
-    if errors:
-        logger.error("Validation error", errors)
-        return jsonify(errors), 400
-
-    prompt = data["prompt"]
     text = TextService.get_text_by_id(text_id, user_id)
     if not text:
         logger.error("Text not found", {"text_id": text_id, "user_id": user_id})
         return jsonify({"error": "Text not found"}), 404
-    response = ai_service.generate_text(prompt)
-    updated_text = TextService.update_text(text, prompt, response)
+    response = ai_service.generate_text(text.prompt)
+    updated_text = TextService.update_text(text, response)
 
     return jsonify({
         "message": "Text updated successfully",

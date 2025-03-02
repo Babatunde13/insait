@@ -189,16 +189,10 @@ Error Response(404)
 5. ### Update Generated Text
 URL: `/generated-text/{text_id}`
 Method: PUT
-Description: Updates an existing generated text record with a new prompt.
+Description: Updates an existing generated text record with a new response by recalling open AI with the saved prompt.
 Request Parameters:
 text_id (integer, required): The ID of the generated text.
 Request Body:
-```json
-{
-    "prompt": "string"
-}
-```
-prompt (string, required): The new prompt used for text generation. Must be at least 5 characters long.
 Response:
 
 ```json
