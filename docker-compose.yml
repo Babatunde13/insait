@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "4012:4012"
+    depends_on:
+      - db
+    env_file:
+      - docker.env
+      
+    networks:
+      - insait-network
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: insait
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - insait-network
+
+networks:
+  insait-network:
+    driver: bridge
