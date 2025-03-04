@@ -1,4 +1,4 @@
-FROM python:3.9 AS base
+FROM python:3.9
 
 WORKDIR /app
 
@@ -8,10 +8,7 @@ RUN pip install -r requirements.txt
 
 COPY . .
 
-FROM base AS final
-
-COPY --from=base /app /app
-
 EXPOSE 4012
 
 CMD ["sh", "-c", "flask db upgrade && python run.py"]
+

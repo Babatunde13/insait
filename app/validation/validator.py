@@ -8,6 +8,7 @@ class RegisterSchema(Schema):
 
     @validates("username")
     def validate_username(self, value):
+        value = value.strip().lower()
         if len(value) < 3:
             raise ValidationError("Username must be at least 3 characters long.")
         if " " in value:

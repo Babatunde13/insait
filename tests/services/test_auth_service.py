@@ -27,6 +27,15 @@ def test_authenticate_user_success(test_user, mock_create_access_token):
 
     assert mock_create_access_token.call_count == 1
 
+def test_authenticate_user_in_different_case(test_user, mock_create_access_token):
+    response = AuthService.authenticate_user(test_user.username.upper(), test_user.password)
+    assert response == {
+        "data": {"access_token": "mock_token"},
+        "message": "User authenticated successfully"
+    }
+
+    assert mock_create_access_token.call_count == 1
+
 def test_authenticate_user_invalid(test_user):
     response = AuthService.authenticate_user(test_user.username, "wrong_password")
     assert response == {"error": "Invalid credentials"}

@@ -9,7 +9,8 @@ class AuthService:
         return create_access_token(identity=str(user_id), expires_delta=timedelta(days=1))
 
     @staticmethod
-    def register_user(username, password):
+    def register_user(username: str, password: str):
+        username = username.strip().lower()
         if User.query.filter_by(username=username).first():
             return {"error": "User already exists"}
 
@@ -22,6 +23,7 @@ class AuthService:
 
     @staticmethod
     def authenticate_user(username, password):
+        username = username.strip().lower()
         user = User.query.filter_by(username=username).first()
         if not user or not user.check_password(password):
             return { "error": "Invalid credentials" }
