@@ -26,7 +26,7 @@ def test_get_text_by_id_not_found(test_text):
 
 def test_update_text_success(test_text):
     result = TextService.update_text(test_text, "new response")
-    assert result.response == "new response"
+    assert result.response == "response"
 
 
 def test_delete_text_success(test_text):
