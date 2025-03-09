@@ -1,0 +1,17 @@
+name: Run Tests
+
+on:
+  push:
+    branches:
+      - "*"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Run tests with Docker compose
+        run: docker-compose run -e FLASK_ENV=testing app pytest tests/
